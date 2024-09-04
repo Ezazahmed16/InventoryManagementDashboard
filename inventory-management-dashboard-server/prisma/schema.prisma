@@ -14,77 +14,74 @@ datasource db {
 }
 
 model Users {
-  user  String @id
-  name  String
-  email String
+  userId String @id
+  name   String
+  email  String
 }
 
 model Products {
   productId     String      @id
   name          String
   price         Float
-  ratting       Float?
+  rating        Float?
   stockQuantity Int
   Sales         Sales[]
   Purchases     Purchases[]
 }
 
 model Sales {
-  saleId       String   @id
-  productId    String?
-  timestamp    DateTime
-  quantity     Int
-  unitPrice    Float
-  totalAmmount Float
-
-  Products Products? @relation(fields: [productId], references: [productId])
+  saleId      String   @id
+  productId   String
+  timestamp   DateTime
+  quantity    Int
+  unitPrice   Float
+  totalAmount Float
+  product     Products @relation(fields: [productId], references: [productId])
 }
 
 model Purchases {
   purchaseId String   @id
-  productId  String?
+  productId  String
   timestamp  DateTime
   quantity   Int
   unitCost   Float
   totalCost  Float
-
-  Products Products? @relation(fields: [productId], references: [productId])
+  product    Products @relation(fields: [productId], references: [productId])
 }
 
-model Expense {
+model Expenses {
   expenseId String   @id
   category  String
-  ammount   Float
-  timeStamp DateTime
+  amount    Float
+  timestamp DateTime
 }
 
 model SalesSummary {
   salesSummaryId   String   @id
   totalValue       Float
-  changePercentage Float
+  changePercentage Float?
   date             DateTime
 }
 
 model PurchaseSummary {
   purchaseSummaryId String   @id
   totalPurchased    Float
-  changePercentage  Float
+  changePercentage  Float?
   date              DateTime
 }
 
-model ExpenseSummery {
-  expenseSummeryId  String              @id
-  totalExpense      Float
+model ExpenseSummary {
+  expenseSummaryId  String              @id
+  totalExpenses     Float
   date              DateTime
   ExpenseByCategory ExpenseByCategory[]
 }
 
 model ExpenseByCategory {
-  expenseByCategoryId String   @id
-  expenseSummeryId    String?
+  expenseByCategoryId String         @id
+  expenseSummaryId    String
+  category            String
+  amount              BigInt
   date                DateTime
-  category            BigInt
-  ammount             BigInt
-
-  ExpenseSummery ExpenseSummery? @relation(fields: [expenseSummeryId], references: [expenseSummeryId])
+  expenseSummary      ExpenseSummary @relation(fields: [expenseSummaryId], references: [expenseSummaryId])
 }
