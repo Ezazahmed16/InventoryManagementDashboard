@@ -6,6 +6,8 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 
 // ROUTE IMPORT 
+const dashboardRoute = require('./routes/dashboardRoute');
+
 
 // CONFIGURATION 
 dotenv.config();
@@ -20,9 +22,7 @@ app.use(cors());
 
 // ROUTES 
 
-app.get('/test', (req, res) => {
-    res.json({ message: 'Hello, World!' });
-})
+app.use("/dashboard", dashboardRoute)
 
 // SERVER
 const port = process.env.PORT || 3001;
